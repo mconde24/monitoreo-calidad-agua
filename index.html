@@ -1,0 +1,107 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10263d">
+  <meta name="description" content="Dashboard público de monitoreo de calidad del agua mediante sensores IoT y ThingSpeak.">
+  <title>Monitoreo de calidad del agua</title>
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="./app.js" defer></script>
+</head>
+<body>
+  <main class="dashboard">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">≈</div>
+        <div>
+          <p class="eyebrow">MONITOREO AMBIENTAL · IoT</p>
+          <h1>Calidad del agua</h1>
+          <p class="subtitle">Panel de mediciones en tiempo real</p>
+        </div>
+      </div>
+      <div class="connection">
+        <span id="connection-dot" class="dot"></span>
+        <span id="connection-label">Conectando...</span>
+      </div>
+    </header>
+
+    <section class="toolbar" aria-label="Controles del dashboard">
+      <div class="control">
+        <label for="wd-range">Periodo histórico</label>
+        <select id="wd-range">
+          <option value="15">Últimos 15 minutos</option>
+          <option value="30">Últimos 30 minutos</option>
+          <option value="60">Última hora</option>
+          <option value="360">Últimas 6 horas</option>
+          <option value="720">Últimas 12 horas</option>
+          <option value="1440" selected>Últimas 24 horas</option>
+        </select>
+      </div>
+      <div class="toolbar-actions">
+        <button id="wd-refresh" class="button button-primary" type="button">
+          ↻ Actualizar
+        </button>
+        <button id="wd-csv" class="button button-secondary" type="button">
+          ↓ Descargar CSV
+        </button>
+      </div>
+    </section>
+
+    <section class="summary-grid" aria-label="Estado de la conexión">
+      <article class="summary-card">
+        <span class="summary-label">Última medición</span>
+        <strong id="last-reading">--</strong>
+        <span class="summary-note">Hora local de Colombia</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Registros recibidos</span>
+        <strong id="record-count">--</strong>
+        <span class="summary-note">En el periodo seleccionado</span>
+      </article>
+      <article class="summary-card">
+        <span class="summary-label">Intervalo de consulta</span>
+        <strong>30 segundos</strong>
+        <span class="summary-note">Actualización automática</span>
+      </article>
+    </section>
+
+    <div id="wd-status" class="status" role="status" aria-live="polite">
+      Conectando con ThingSpeak...
+    </div>
+
+    <section aria-labelledby="gauges-title">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">LECTURAS ACTUALES</p>
+          <h2 id="gauges-title">Indicadores de calidad</h2>
+        </div>
+        <span class="section-caption">Último valor disponible por variable</span>
+      </div>
+      <div id="wd-gauges" class="gauge-grid"></div>
+    </section>
+
+    <section aria-labelledby="history-title">
+      <div class="section-heading history-heading">
+        <div>
+          <p class="eyebrow">ANÁLISIS TEMPORAL</p>
+          <h2 id="history-title">Historial de mediciones</h2>
+        </div>
+        <p class="section-caption">Pasa el cursor sobre una gráfica para consultar sus valores.</p>
+      </div>
+      <div id="wd-charts" class="chart-grid"></div>
+    </section>
+
+    <footer class="footer">
+      <span>Fuente de datos: ThingSpeak · Canal 3151173</span>
+      <span id="last-update">Esperando actualización...</span>
+    </footer>
+  </main>
+
+  <noscript>
+    Este dashboard necesita JavaScript habilitado para consultar las mediciones.
+  </noscript>
+</body>
+</html>
